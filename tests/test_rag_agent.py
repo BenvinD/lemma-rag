@@ -3,17 +3,19 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from src.rag_agent import app
+from lemma_rag.rag_agent import create_app
 
 
 @pytest.fixture
-def client():
+def client() -> TestClient:
     """Create test client."""
+    app = create_app()
     return TestClient(app)
 
 
-def test_health_check(client):
+def test_health_check(client: TestClient) -> None:
     """Test health check endpoint."""
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json()["status"] == "healthy"
+    data = response.json()
+    assert data["status"] == "healthy"
