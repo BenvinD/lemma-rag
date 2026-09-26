@@ -1,0 +1,22 @@
+# Ingestion settings. Every chunk records a fingerprint of [chunking] + [pdf],
+# so changing anything here marks previously written chunks as stale.
+
+raw_dir = "data/raw"
+parsed_dir = "data/parsed"          # cached Docling parses (re-used across chunking runs)
+chunks_path = "data/chunks/chunks.jsonl"
+
+[chunking]
+# Characters, not tokens: the embedding model is not chosen yet (ADR-101).
+# ~1200 chars is roughly 250-300 tokens of English prose.
+chunk_size = 1200
+chunk_overlap = 150
+separators = ["\n\n", "\n", ". ", " ", ""]
+# Reference lists are dense with names and titles that match many queries
+# lexically while answering none of them.
+exclude_headings = ['^(\d+\s+)?references$', '^bibliography$']
+
+[pdf]
+backend = "pypdfium2"          # docling_parse glues words together on many arXiv PDFs; see PdfConfig
+do_ocr = false                 # arXiv PDFs are born-digital
+do_table_structure = true
+infer_heading_levels = true    # full heading paths instead of flat section titles

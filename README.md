@@ -1,6 +1,6 @@
 # lemma-rag
 
-**v0.3**
+**v0.4**
 
 ## What is This?
 
@@ -34,6 +34,27 @@ uv run uvicorn lemma_rag.rag_agent:app --reload
 
 The server will be available at `http://localhost:8000`
 
+### Corpus and Ingestion
+
+```bash
+uv run lemma fetch     # download the pinned corpus into data/raw (configs/corpus.toml)
+uv run lemma ingest    # parse (Docling) -> chunk -> data/chunks/chunks.jsonl (configs/ingest.toml)
+uv run lemma inspect   # print 20 random chunks + size stats; --seed N to reproduce, --source to filter
+```
+
+The corpus is 131 documents in three formats: the FastAPI tutorial (Markdown),
+Python standard-library reference pages (HTML), and 30 arXiv retrieval/RAG
+papers (PDF). All versions are pinned, so `lemma fetch` is reproducible.
+`data/` is git-ignored.
+
+Chunking is structural first and recursive second. Docling splits each
+document into paragraphs, lists, tables and code blocks under their heading
+path. Units that share a heading path form a section, and chunks never cross a
+section boundary. A section larger than `chunk_size` is split recursively
+(paragraph → line → sentence → word) with `chunk_overlap`. Parsed documents are
+cached in `data/parsed/`, so changing chunk settings never re-parses a PDF.
+Each chunk records a fingerprint of the config that produced it.
+
 ### Development
 
 ```bash
@@ -49,8 +70,10 @@ uv run pre-commit run --all-files
 ## Project Layout
 
 ```
-src/lemma_rag/    # the package (src/ layout, not flat)
-tests/            # imports the installed package, never src/
+src/lemma_rag/         # the package (src/ layout, not flat)
+src/lemma_rag/ingest/  # corpus fetch, Docling parse, chunking, inspector
+configs/               # corpus.toml (what to fetch), ingest.toml (how to chunk)
+tests/                 # imports the installed package, never src/
 ```
 
 The `src/` layout is deliberate. Tests import `lemma_rag` from the installed

@@ -1,0 +1,63 @@
+# The pinned corpus: three sources, one per input format (~130 documents).
+# Everything is versioned, so `lemma fetch` is reproducible.
+
+raw_dir = "data/raw"
+# arXiv asks API clients to identify themselves.
+user_agent = "lemma-rag/0.1 (+https://github.com/BenvinD/lemma-rag)"
+
+[fastapi]  # Markdown
+tag = "0.141.1"
+include = ["tutorial/**/*.md"]
+
+[pydocs]  # HTML
+version = "3.14"
+pages = [
+    "library/asyncio-task", "library/asyncio-eventloop", "library/asyncio-queue",
+    "library/asyncio-sync", "library/asyncio-subprocess", "library/asyncio-stream",
+    "library/typing", "library/dataclasses", "library/functools", "library/itertools",
+    "library/collections", "library/collections.abc", "library/contextlib", "library/abc",
+    "library/enum", "library/pathlib", "library/os.path", "library/shutil",
+    "library/tempfile", "library/json", "library/csv", "library/sqlite3", "library/re",
+    "library/string", "library/textwrap", "library/logging", "library/logging.config",
+    "library/argparse", "library/datetime", "library/zoneinfo", "library/threading",
+    "library/multiprocessing", "library/concurrent.futures", "library/subprocess",
+    "library/urllib.parse", "library/unittest", "library/unittest.mock",
+    "library/timeit", "library/heapq", "library/bisect", "library/weakref",
+    "library/pickle", "library/hashlib", "library/secrets", "library/random",
+    "library/statistics", "library/decimal", "library/inspect", "library/tomllib",
+    "library/graphlib",
+]
+
+[arxiv]  # PDF: retrieval, reranking, RAG and RAG evaluation
+ids = [
+    "2005.11401v4",  # RAG for knowledge-intensive NLP
+    "2004.04906v3",  # DPR
+    "2002.08909v1",  # REALM
+    "2007.01282v2",  # Fusion-in-Decoder
+    "2112.04426v3",  # RETRO
+    "2208.03299v3",  # Atlas
+    "2310.11511v1",  # Self-RAG
+    "2312.10997v5",  # RAG survey
+    "2401.15884v3",  # Corrective RAG
+    "2305.06983v2",  # FLARE
+    "2212.10496v1",  # HyDE
+    "2004.12832v2",  # ColBERT
+    "2112.01488v3",  # ColBERTv2
+    "2104.08663v4",  # BEIR
+    "2309.15217v2",  # Ragas
+    "2307.03172v3",  # Lost in the Middle
+    "2212.03533v2",  # E5
+    "2210.07316v3",  # MTEB
+    "2401.18059v1",  # RAPTOR
+    "2404.16130v2",  # GraphRAG
+    "1908.10084v1",  # Sentence-BERT
+    "1901.04085v5",  # BERT passage re-ranking
+    "2003.06713v1",  # monoT5
+    "2107.05720v1",  # SPLADE
+    "2112.09118v4",  # Contriever
+    "2311.09476v2",  # ARES
+    "2302.00083v3",  # In-Context RALM
+    "2301.12652v4",  # REPLUG
+    "2402.03216v5",  # BGE M3
+    "2309.07597v5",  # C-Pack / BGE
+]

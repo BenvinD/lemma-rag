@@ -17,7 +17,12 @@ dependencies = [
     # Required by fastapi.testclient.TestClient; previously only present as a
     # transitive dep, which is why CI failed with ModuleNotFoundError.
     "httpx>=0.25.1",
+    "docling>=2.130.0",
+    "beautifulsoup4>=4.15.0",
 ]
+
+[project.scripts]
+lemma = "lemma_rag.cli:main"
 
 # Dev tooling is a dependency-group, not an extra: it is installed by
 # `uv sync` and never published as part of the distribution.
